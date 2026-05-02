@@ -70,7 +70,7 @@ python src/main.py
 ```
 pip install -r requirements.txt
 pip install pyinstaller
-pyinstaller src/main.py --onefile --noconsole --add-data "presets;presets"
+pyinstaller src/main.py --onefile --noconsole --add-data "style.css;." 
 ```
 
 * The UI window will open.
