@@ -56,12 +56,14 @@ Setup the application:
 ```
 git clone https://github.com/aloe-ps/Low-resolution-Filter.git
 python -m venv venv
+venv\Scripts\activate
 pip install opencv-python numpy PyQt5 pyvirtualcam
 ```
 
 Run the application:
 
 ```
+venv\Scripts\activate
 python src/main.py
 ```
 
