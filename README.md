@@ -57,7 +57,7 @@ Setup the application:
 git clone https://github.com/aloe-ps/Low-resolution-Filter.git
 python -m venv venv
 venv\Scripts\activate
-pip install opencv-python numpy PyQt5 pyvirtualcam
+pip install -r requirements.txt
 ```
 
 Run the application:
@@ -65,6 +65,12 @@ Run the application:
 ```
 venv\Scripts\activate
 python src/main.py
+```
+## Build
+```
+pip install -r requirements.txt
+pip install pyinstaller
+pyinstaller src/main.py --onefile --noconsole --add-data "presets;presets"
 ```
 
 * The UI window will open.
