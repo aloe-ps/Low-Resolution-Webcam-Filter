@@ -72,6 +72,7 @@ pip install -r requirements.txt
 pip install pyinstaller
 pyinstaller src/main.py --onefile --noconsole --add-data "style.css;." 
 ```
+> When you build the project, please place the style.css file in the same directory as the executable file.
 
 * The UI window will open.
 * The camera feed will start automatically.
