@@ -1,13 +1,13 @@
 import os
-import sys
 from PyQt5.QtWidgets import (
-    QApplication, QGroupBox, QInputDialog, QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QSlider, QPushButton, QFileDialog, QListWidget
+    QGroupBox, QInputDialog, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QSlider, QPushButton, QListWidget
 )
 from PyQt5.QtCore import Qt
 
-from config import PRESET_DIR, list_presets, load_stylesheet, save_preset, load_preset
 from content import TOOLTIPS
+from setting.preset import PRESET_DIR, list_presets, load_preset, save_preset
+from setting.stylesheet import load_stylesheet
 
 
 class ControlUI(QWidget):
@@ -101,7 +101,7 @@ class ControlUI(QWidget):
         top.addStretch()
 
         # --- スライダー
-        slider = QSlider(Qt.Horizontal)
+        slider = QSlider(Qt.Orientation.Horizontal)
 
         if float_mode:
             slider.setMinimum(int(minv * 100))
@@ -165,11 +165,3 @@ class ControlUI(QWidget):
         import filter
         filter.fixed_noise = None
         filter.prev_noise = None
-
-def start_ui(config):
-    app = QApplication(sys.argv)
-    from PyQt5.QtGui import QFont
-    app.setFont(QFont("Segoe UI", 11))
-    win = ControlUI(config)
-    win.show()
-    app.exec_()

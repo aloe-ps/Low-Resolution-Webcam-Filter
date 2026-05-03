@@ -25,12 +25,12 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 ## Project Structure
 
 ```
-project/
+src/
 ├─ main.py          # Entry point
 ├─ filter.py        # Image processing logic
 ├─ ui.py            # PyQt UI
 ├─ config.py        # Parameter + preset management
-├─ content.pt       # Tooltips content
+├─ content.py       # Tooltips content
 ```
 
 ---
@@ -43,12 +43,6 @@ project/
 * PyQt5
 * pyvirtualcam
 
-Install dependencies:
-
-```
-pip install opencv-python numpy PyQt5 pyvirtualcam
-```
-
 ---
 
 ## Usage
@@ -57,7 +51,7 @@ Setup the application:
 git clone https://github.com/aloe-ps/Low-resolution-Filter.git
 python -m venv venv
 venv\Scripts\activate
-pip install opencv-python numpy PyQt5 pyvirtualcam
+pip install -r requirements.txt
 ```
 
 Run the application:
@@ -66,6 +60,13 @@ Run the application:
 venv\Scripts\activate
 python src/main.py
 ```
+## Build
+```
+pip install -r requirements.txt
+pip install pyinstaller
+pyinstaller src/main.py --onefile --noconsole --add-data "style.css;." 
+```
+> When you build the project, please place the style.css file in the same directory as the executable file.
 
 * The UI window will open.
 * The camera feed will start automatically.
