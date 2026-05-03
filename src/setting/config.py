@@ -1,4 +1,16 @@
 class Config:
+    # annotations
+    green_gain: float
+    red_gain: float
+    saturation: float
+    blur_x: int
+    contrast: float
+    brightness: float
+    noise_strength: float
+    noise_fine: float
+    noise_alpha: float
+    chromatic_shift: int
+
     # default settings
     def __init__(self):
         self.defaults = {
