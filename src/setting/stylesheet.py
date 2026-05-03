@@ -9,7 +9,7 @@ def get_stylesheet(filename):
     if getattr(sys, 'frozen', False):
         base_path = os.path.dirname(sys.executable)
     else:
-        base_path = os.path.dirname(os.path.abspath(__file__))
+        base_path = os.path.abspath(os.getcwd())
 
     external_path = os.path.join(base_path, filename)
 
