@@ -1,10 +1,13 @@
 import cv2
+from cv2.typing import MatLike
 import numpy as np
+
+from setting.config import Config
 
 fixed_noise = None
 prev_noise = None
 
-def apply_low_resolution(frame, config):
+def apply_low_resolution(frame: MatLike, config: Config):
     global fixed_noise, prev_noise
 
     f = frame.astype(np.float32) / 255.0
@@ -48,7 +51,8 @@ def apply_low_resolution(frame, config):
     f = f + noise * noise_strength[..., None]
 
     # --- 色収差
-    b, g, r = cv2.split(f)
+    f_float32 = f.astype(np.float32) # 明示的に変換
+    b, g, r = cv2.split(f_float32)
     r = np.roll(r, int(config.chromatic_shift), axis=1)
     f = cv2.merge((b, g, r))
 
