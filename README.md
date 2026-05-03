@@ -25,12 +25,12 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 ## Project Structure
 
 ```
-project/
+src/
 ├─ main.py          # Entry point
 ├─ filter.py        # Image processing logic
 ├─ ui.py            # PyQt UI
 ├─ config.py        # Parameter + preset management
-├─ content.pt       # Tooltips content
+├─ content.py       # Tooltips content
 ```
 
 ---
@@ -42,12 +42,6 @@ project/
 * NumPy
 * PyQt5
 * pyvirtualcam
-
-Install dependencies:
-
-```
-pip install opencv-python numpy PyQt5 pyvirtualcam
-```
 
 ---
 
