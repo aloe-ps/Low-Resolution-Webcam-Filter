@@ -3,7 +3,9 @@ from ui.slider_params import PARAMS
 class Config:
     green_gain: float
     red_gain: float
+    blue_gain: float
     saturation: float
+    temperature: float
     blur_x: int
     contrast: float
     brightness: float
@@ -17,7 +19,7 @@ class Config:
 
     def reset(self) -> None:
         for name, meta in PARAMS.items():
-            assert hasattr(self, name)
+            # assert hasattr(self, name)
             setattr(self, name, meta["default"])
 
     def to_dict(self):

@@ -11,6 +11,8 @@ PARAMS: dict[str, ParamMeta] = {
     "saturation": {"default": 0.6, "min": 0.2, "max": 1.5, "float": True, "category": "Color"},
     "green_gain": {"default": 1.03, "min": 0.8, "max": 1.2, "float": True, "category": "Color"},
     "red_gain": {"default": 0.92, "min": 0.8, "max": 1.2, "float": True, "category": "Color"},
+    "blue_gain": {"default": 1, "min": 0.8, "max": 1.2, "float": True, "category": "Color"},
+    "temperature": {"default": 0.0, "min": -1.0, "max": 1.0, "float": True, "category": "Color"},
 
     "blur_x": {"default": 6, "min": 1, "max": 21, "float": False, "category": "Lens"},
     "chromatic_shift": {"default": 1, "min": 0, "max": 3, "float": False, "category": "Lens"},

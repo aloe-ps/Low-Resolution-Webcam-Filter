@@ -14,8 +14,15 @@ def apply_low_resolution(frame: MatLike, config: Config):
     h, w = f.shape[:2]
 
     # --- 色
+    f[:,:,0] *= config.blue_gain
     f[:,:,1] *= config.green_gain
     f[:,:,2] *= config.red_gain
+
+    t = config.temperature
+    gray = cv2.cvtColor((f*255).astype(np.uint8), cv2.COLOR_BGR2GRAY) / 255.0
+    mask = (1.0 - gray) ** 1.5
+    f[:,:,2] *= (1.0 + t * 0.2 * mask)
+    f[:,:,0] *= (1.0 - t * 0.2 * mask)
 
     # --- 彩度
     hsv = cv2.cvtColor((f*255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
@@ -45,13 +52,12 @@ def apply_low_resolution(frame: MatLike, config: Config):
     prev_noise = noise
 
     # 明るさ依存
-    gray = cv2.cvtColor((f*255).astype(np.uint8), cv2.COLOR_BGR2GRAY) / 255.0
     noise_strength = (1 - gray)**1.5
 
     f = f + noise * noise_strength[..., None]
 
     # --- 色収差
-    f_float32 = f.astype(np.float32) # 明示的に変換
+    f_float32 = f.astype(np.float32)
     b, g, r = cv2.split(f_float32)
     r = np.roll(r, int(config.chromatic_shift), axis=1)
     f = cv2.merge((b, g, r))
