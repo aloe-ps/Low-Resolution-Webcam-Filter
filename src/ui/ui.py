@@ -1,13 +1,15 @@
 import os
-import sys
 from PyQt5.QtWidgets import (
-    QApplication, QGroupBox, QInputDialog, QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QSlider, QPushButton, QFileDialog, QListWidget
+    QGroupBox, QInputDialog, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QSlider, QPushButton, QListWidget
 )
 from PyQt5.QtCore import Qt
 
-from config import PRESET_DIR, list_presets, load_stylesheet, save_preset, load_preset
 from content import TOOLTIPS
+from setting.preset import PRESET_DIR, list_presets, load_preset, save_preset
+from setting.stylesheet import load_stylesheet
+from ui.slider_params import PARAMS
+from collections import defaultdict
 
 
 class ControlUI(QWidget):
@@ -46,33 +48,33 @@ class ControlUI(QWidget):
         left.addWidget(btn_save)
         left.addWidget(btn_reset)
 
+        main.addLayout(left, 1)
+
         # --- 右：スライダー
         self.sliders = {}
         right = QVBoxLayout()
 
-        # Color
-        color_box, color_layout = self.create_group("Color")
-        self.add_slider(color_layout, "Saturation", "saturation", 0.2, 1.5, True)
-        self.add_slider(color_layout, "Green Gain", "green_gain", 0.8, 1.2, True)
-        self.add_slider(color_layout, "Red Gain", "red_gain", 0.8, 1.2, True)
+        groups = defaultdict(list)
 
-        # Lens
-        lens_box, lens_layout = self.create_group("Lens")
-        self.add_slider(lens_layout, "Blur X", "blur_x", 1, 21)
-        self.add_slider(lens_layout, "Chromatic Shift", "chromatic_shift", 0, 3)
+        for name, meta in PARAMS.items():
+            groups[meta["category"]].append((name, meta))
 
-        # Noise
-        noise_box, noise_layout = self.create_group("Noise")
-        self.add_slider(noise_layout, "Noise Strength", "noise_strength", 0.0, 0.05, True)
-        self.add_slider(noise_layout, "Noise Fine", "noise_fine", 0.0, 0.01, True)
-        self.add_slider(noise_layout, "Noise Alpha", "noise_alpha", 0.7, 0.99, True)
+        for category, items in groups.items():
+            box, layout = self.create_group(category)
 
-        right.addWidget(color_box)
-        right.addWidget(lens_box)
-        right.addWidget(noise_box)
+            for name, meta in items:
+                self.add_slider(
+                    layout,
+                    name,
+                    name,
+                    meta["min"],
+                    meta["max"],
+                    meta["float"]
+                )
 
-        main.addLayout(left, 1)
+            right.addWidget(box)
         main.addLayout(right, 2)
+
 
     def create_group(self, title):
         box = QGroupBox(title)
@@ -101,7 +103,7 @@ class ControlUI(QWidget):
         top.addStretch()
 
         # --- スライダー
-        slider = QSlider(Qt.Horizontal)
+        slider = QSlider(Qt.Orientation.Horizontal)
 
         if float_mode:
             slider.setMinimum(int(minv * 100))
@@ -165,11 +167,3 @@ class ControlUI(QWidget):
         import filter
         filter.fixed_noise = None
         filter.prev_noise = None
-
-def start_ui(config):
-    app = QApplication(sys.argv)
-    from PyQt5.QtGui import QFont
-    app.setFont(QFont("Segoe UI", 11))
-    win = ControlUI(config)
-    win.show()
-    app.exec_()
