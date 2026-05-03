@@ -1,0 +1,88 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # v1.0.0 などのタグプッシュで起動
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: Low-Resolution-Webcam-Filter-Windows
+            asset_name: Low-Resolution-Webcam-Filter.exe
+            sep: ";"
+          - os: macos-latest
+            artifact_name: Low-Resolution-Webcam-Filter-Mac
+            asset_name: Low-Resolution-Webcam-Filter-Mac
+            sep: ":"
+          - os: ubuntu-latest
+            artifact_name: Low-Resolution-Webcam-Filter-Linux
+            asset_name: Low-Resolution-Webcam-Filter-Linux
+            sep: ":"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements-build.txt
+
+      - name: Build with PyInstaller
+        run: >
+          pyinstaller --name "Low Resolution Webcam Filter" 
+          --noconsole --onefile 
+          --add-data "style.css${{ matrix.sep }}." 
+          src/main.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/Low Resolution Webcam Filter*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Prepare assets for release
+        run: |
+          # Windows用バイナリの整理
+          mv Low-Resolution-Webcam-Filter-Windows/"Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
+          
+          # Mac用バイナリの整理
+          mv Low-Resolution-Webcam-Filter-Mac/"Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac
+          chmod +x Low-Resolution-Webcam-Filter-Mac
+          
+          # Linux用バイナリの整理
+          mv Low-Resolution-Webcam-Filter-Linux/"Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
+          chmod +x Low-Resolution-Webcam-Filter-Linux
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Low-Resolution-Webcam-Filter.exe
+            Low-Resolution-Webcam-Filter-Mac
+            Low-Resolution-Webcam-Filter-Linux
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
