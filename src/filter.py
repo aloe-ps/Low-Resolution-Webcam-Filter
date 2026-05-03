@@ -1,3 +1,5 @@
+import threading
+
 import cv2
 from cv2.typing import MatLike
 import numpy as np
@@ -6,6 +8,7 @@ from setting.config import Config
 
 fixed_noise = None
 prev_noise = None
+noise_lock = threading.Lock()
 
 def apply_low_resolution(frame: MatLike, config: Config):
     global fixed_noise, prev_noise
@@ -13,6 +16,12 @@ def apply_low_resolution(frame: MatLike, config: Config):
     f = frame.astype(np.float32) / 255.0
     h, w = f.shape[:2]
 
+    with noise_lock:
+        if fixed_noise is None or fixed_noise.shape[:2] != (h, w):
+            fixed_noise = np.random.normal(0, config.noise_strength, (h, w, 1)).astype(np.float32)
+        if prev_noise is None or prev_noise.shape[:2] != (h, w):
+            prev_noise = fixed_noise.copy()
+            
     # --- 色
     f[:,:,0] *= config.blue_gain
     f[:,:,1] *= config.green_gain
