@@ -5,9 +5,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
-from setting.config import PRESET_DIR
 from content import TOOLTIPS
-from setting.preset import list_presets, load_preset, save_preset
+from setting.preset import PRESET_DIR, list_presets, load_preset, save_preset
 from setting.stylesheet import load_stylesheet
 
 
@@ -102,7 +101,7 @@ class ControlUI(QWidget):
         top.addStretch()
 
         # --- スライダー
-        slider = QSlider(Qt.Horizontal)
+        slider = QSlider(Qt.Orientation.Horizontal)
 
         if float_mode:
             slider.setMinimum(int(minv * 100))
