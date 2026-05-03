@@ -25,6 +25,9 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 
 * Python 3.9+
 * uv
+```
+pip install uv
+```
 * OpenCV
 * NumPy
 * PyQt5
@@ -35,8 +38,8 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 ## Usage
 Run the application:
 ```
-git clone https://github.com/aloe-ps/Low-resolution-Filter.git
-cd Low-resolution-Filter
+git clone https://github.com/aloe-ps/Low-Resolution-Webcam-Filter.git
+cd Low-Resolution-Webcam-Filter
 uv run src\main.py
 ```
 ## Build
