@@ -4,7 +4,7 @@ import threading
 
 from ui import start_ui
 from filter import apply_low_resolution
-from config import config
+from setting.config import config
 
 
 def camera_loop():

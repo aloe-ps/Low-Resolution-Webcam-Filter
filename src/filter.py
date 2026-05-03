@@ -20,7 +20,7 @@ def apply_low_resolution(frame, config):
     hsv = np.clip(hsv, 0, 255).astype(np.uint8)
     f = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR).astype(np.float32) / 255.0
 
-    # --- ブラー（安全）
+    # --- ブラー
     kx = int(config.blur_x)
     if kx % 2 == 0: kx += 1
     f = cv2.GaussianBlur(f, (kx,1), 0)
