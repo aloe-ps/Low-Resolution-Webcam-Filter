@@ -33,6 +33,7 @@ def apply_low_resolution(frame: MatLike, config: Config):
     mask = (1.0 - gray) ** 1.5
     f[:,:,2] *= (1.0 + t * 0.2 * mask)
     f[:,:,0] *= (1.0 - t * 0.2 * mask)
+    f = np.clip(f, 0, 1.0)
 
     # --- 彩度
     hsv = cv2.cvtColor((f*255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
