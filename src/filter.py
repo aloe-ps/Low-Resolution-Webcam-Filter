@@ -18,6 +18,7 @@ def apply_low_resolution(frame: MatLike, config: Config):
     f[:,:,1] *= config.green_gain
     f[:,:,2] *= config.red_gain
 
+    f = np.clip(f, 0, 1.0)
     t = config.temperature
     gray = cv2.cvtColor((f*255).astype(np.uint8), cv2.COLOR_BGR2GRAY) / 255.0
     mask = (1.0 - gray) ** 1.5
