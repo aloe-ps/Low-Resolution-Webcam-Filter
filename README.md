@@ -38,6 +38,7 @@ src/
 ## Requirements
 
 * Python 3.9+
+* uv
 * OpenCV
 * NumPy
 * PyQt5
@@ -46,29 +47,21 @@ src/
 ---
 
 ## Usage
-Setup the application:
+Run the application:
 ```
 git clone https://github.com/aloe-ps/Low-resolution-Filter.git
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-Run the application:
-
-```
-venv\Scripts\activate
-python src/main.py
+cd Low-resolution-Filter
+uv run src\main.py
 ```
 ## Build
 ### Windows
 ```
-pip install -r requirements-build.txt
+uv add -r requirements-build.txt
 pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
 ```
 ### Mac / Linux
 ```
-pip install -r requirements-build.txt
+uv add -r requirements-build.txt
 pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
 ```
 
