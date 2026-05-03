@@ -47,25 +47,27 @@ def apply_low_resolution(frame: MatLike, config: Config):
 
     # --- コントラスト
     f = f * config.contrast + config.brightness
+    f = np.clip(f, 0, 1.0)
 
-    # --- ノイズ
-    if fixed_noise is None:
-        fixed_noise = np.random.normal(0, config.noise_strength, (h, w, 1)).astype(np.float32)
-
+    # --- 動的ノイズの計算
     dynamic_noise = np.random.normal(0, config.noise_fine, (h, w, 1)).astype(np.float32)
-    noise = fixed_noise + dynamic_noise
-
-    if prev_noise is None:
-        prev_noise = noise
-
-    noise = prev_noise * config.noise_alpha + noise * (1 - config.noise_alpha)
-    prev_noise = noise
+    
+    with noise_lock:
+        if fixed_noise is None:
+            fixed_noise = np.random.normal(0, config.noise_strength, (h, w, 1)).astype(np.float32)
+        
+        current_noise = fixed_noise + dynamic_noise
+        
+        if prev_noise is None:
+            prev_noise = current_noise
+        
+        combined_noise = prev_noise * config.noise_alpha + current_noise * (1 - config.noise_alpha)
+        prev_noise = combined_noise
 
     # 明るさ依存
     noise_strength = (1 - gray)**1.5
-
-    f = f + noise * noise_strength[..., None]
-
+    f = f + combined_noise * noise_strength[..., None]
+    
     # --- 色収差
     f_float32 = f.astype(np.float32)
     b, g, r = cv2.split(f_float32)
