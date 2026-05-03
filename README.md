@@ -21,23 +21,10 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 * Categorized controls (Color / Lens / Noise)
 
 ---
-
-## Project Structure
-
-```
-src/
-├─ main.py          # Entry point
-├─ filter.py        # Image processing logic
-├─ ui.py            # PyQt UI
-├─ config.py        # Parameter + preset management
-├─ content.py       # Tooltips content
-```
-
----
-
 ## Requirements
 
 * Python 3.9+
+* uv
 * OpenCV
 * NumPy
 * PyQt5
@@ -46,30 +33,22 @@ src/
 ---
 
 ## Usage
-Setup the application:
+Run the application:
 ```
 git clone https://github.com/aloe-ps/Low-resolution-Filter.git
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-Run the application:
-
-```
-venv\Scripts\activate
-python src/main.py
+cd Low-resolution-Filter
+uv run src\main.py
 ```
 ## Build
 ### Windows
 ```
-pip install -r requirements-build.txt
-pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
+uv add -r requirements-build.txt
+uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
 ```
 ### Mac / Linux
 ```
-pip install -r requirements-build.txt
-pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
+uv add -r requirements-build.txt
+uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
 ```
 
 * The UI window will open.
@@ -95,11 +74,16 @@ pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-da
 * Saturation: Controls color intensity
 * Green Gain: Adjusts green channel bias
 * Red Gain: Adjusts red channel bias
+* Blue Gain: Adjusts blue channel bias
 
 #### Lens
 
 * Blur X: Horizontal blur amount
 * Chromatic Shift: Simulates color misalignment
+
+#### Image
+* Contrast: Controls contrast
+* Brightness: Conrtols brightness
 
 #### Noise
 
