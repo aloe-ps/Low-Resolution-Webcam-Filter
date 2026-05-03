@@ -4,4 +4,4 @@ presets
 .gitignore
 dist
 build
-main.spec
+**\.spec
