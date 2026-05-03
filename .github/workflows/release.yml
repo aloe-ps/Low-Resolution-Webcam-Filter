@@ -56,33 +56,36 @@ jobs:
           path: dist/Low Resolution Webcam Filter*
 
   release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-
-      - name: Prepare assets for release
-        run: |
-          # Windows用バイナリの整理
-          mv Low-Resolution-Webcam-Filter-Windows/"Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
-          
-          # Mac用バイナリの整理
-          mv Low-Resolution-Webcam-Filter-Mac/"Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac
-          chmod +x Low-Resolution-Webcam-Filter-Mac
-          
-          # Linux用バイナリの整理
-          mv Low-Resolution-Webcam-Filter-Linux/"Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
-          chmod +x Low-Resolution-Webcam-Filter-Linux
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            Low-Resolution-Webcam-Filter.exe
-            Low-Resolution-Webcam-Filter-Mac
-            Low-Resolution-Webcam-Filter-Linux
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      needs: build
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - name: Download all artifacts
+          uses: actions/download-artifact@v4
+          # ここで特定のディレクトリに一括ダウンロードすると管理しやすくなります
+          with:
+            path: raw_artifacts
+  
+        - name: Prepare assets for release
+          run: |
+            # Windows: フォルダの中からexeを取り出してカレントディレクトリへ
+            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Windows/Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
+            
+            # Mac: フォルダの中からバイナリを取り出してリネーム
+            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Mac/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac
+            chmod +x Low-Resolution-Webcam-Filter-Mac
+            
+            # Linux: フォルダの中からバイナリを取り出してリネーム
+            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Linux/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
+            chmod +x Low-Resolution-Webcam-Filter-Linux
+  
+        - name: Create Release
+          uses: softprops/action-gh-release@v2
+          with:
+            files: |
+              Low-Resolution-Webcam-Filter.exe
+              Low-Resolution-Webcam-Filter-Mac
+              Low-Resolution-Webcam-Filter-Linux
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
