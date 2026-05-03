@@ -61,10 +61,15 @@ venv\Scripts\activate
 python src/main.py
 ```
 ## Build
+### Windows
 ```
-pip install -r requirements.txt
-pip install pyinstaller
-pyinstaller --name LRWF --noconsole --onefile --add-data "style.css;." src\main.py
+pip install -r requirements-build.txt
+pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
+```
+### Mac / Linux
+```
+pip install -r requirements-build.txt
+pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
 ```
 
 * The UI window will open.
