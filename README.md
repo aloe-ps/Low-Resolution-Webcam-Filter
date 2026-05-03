@@ -21,20 +21,6 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 * Categorized controls (Color / Lens / Noise)
 
 ---
-
-## Project Structure
-
-```
-src/
-├─ main.py          # Entry point
-├─ filter.py        # Image processing logic
-├─ ui.py            # PyQt UI
-├─ config.py        # Parameter + preset management
-├─ content.py       # Tooltips content
-```
-
----
-
 ## Requirements
 
 * Python 3.9+
@@ -88,11 +74,16 @@ uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile -
 * Saturation: Controls color intensity
 * Green Gain: Adjusts green channel bias
 * Red Gain: Adjusts red channel bias
+* Blue Gain: Adjusts blue channel bias
 
 #### Lens
 
 * Blur X: Horizontal blur amount
 * Chromatic Shift: Simulates color misalignment
+
+#### Image
+* Contrast: Controls contrast
+* Brightness: Conrtols brightness
 
 #### Noise
 
