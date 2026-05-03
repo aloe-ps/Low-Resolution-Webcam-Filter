@@ -2,9 +2,9 @@ import cv2
 import pyvirtualcam
 import threading
 
-from ui import start_ui
 from filter import apply_low_resolution
 from setting.config import config
+from ui.run import start_ui
 
 
 def camera_loop():
