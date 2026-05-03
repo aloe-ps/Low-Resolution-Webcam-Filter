@@ -2,12 +2,14 @@ import os
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QGroupBox, QInputDialog, QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QSlider, QPushButton, QFileDialog, QListWidget
+    QLabel, QSlider, QPushButton, QListWidget
 )
 from PyQt5.QtCore import Qt
 
-from config import PRESET_DIR, list_presets, load_stylesheet, save_preset, load_preset
+from setting.config import PRESET_DIR
 from content import TOOLTIPS
+from setting.preset import list_presets, load_preset, save_preset
+from setting.stylesheet import load_stylesheet
 
 
 class ControlUI(QWidget):
