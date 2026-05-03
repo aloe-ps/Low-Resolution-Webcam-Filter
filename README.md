@@ -57,12 +57,12 @@ uv run src\main.py
 ### Windows
 ```
 uv add -r requirements-build.txt
-pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
+uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
 ```
 ### Mac / Linux
 ```
 uv add -r requirements-build.txt
-pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
+uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
 ```
 
 * The UI window will open.
