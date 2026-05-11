@@ -1,6 +1,6 @@
 [project]
 name = "low-resolution-webcam-filter"
-version = "0.0.2a"
+version = "0.1.0"
 description = "real-time webcam filter that simulates the look of low-resolution consumer webcams"
 readme = "README.md"
 requires-python = ">=3.9"
