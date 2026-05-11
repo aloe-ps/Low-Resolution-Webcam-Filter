@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
@@ -33,8 +33,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
@@ -56,36 +56,37 @@ jobs:
           path: dist/Low Resolution Webcam Filter*
 
   release:
-      needs: build
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-      steps:
-        - name: Download all artifacts
-          uses: actions/download-artifact@v4
-          with:
-            path: raw_artifacts
-  
-        - name: Prepare assets for release
-          run: |
-            # Windows: フォルダの中からexeを取り出してカレントディレクトリへ
-            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Windows/Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
-            
-            # Mac: フォルダの中からバイナリを取り出してリネーム
-            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Mac/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac.app
-            chmod +x Low-Resolution-Webcam-Filter-Mac
-            zip -r Low-Resolution-Webcam-Filter-Mac.zip "Low Resolution Webcam Filter.app"
-            
-            # Linux: フォルダの中からバイナリを取り出してリネーム
-            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Linux/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
-            chmod +x Low-Resolution-Webcam-Filter-Linux
-  
-        - name: Create Release
-          uses: softprops/action-gh-release@v2
-          with:
-            files: |
-              Low-Resolution-Webcam-Filter.exe
-              Low-Resolution-Webcam-Filter-Mac.zip
-              Low-Resolution-Webcam-Filter-Linux
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: raw_artifacts
+
+      - name: Prepare assets for release
+        run: |
+          # Windows: フォルダの中からexeを取り出してカレントディレクトリへ
+          mv "raw_artifacts/Low-Resolution-Webcam-Filter-Windows/Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
+
+          # Mac: フォルダの中からバイナリを取り出してリネーム
+          mv "raw_artifacts/Low-Resolution-Webcam-Filter-Mac/Low Resolution Webcam Filter.app" ./Low-Resolution-Webcam-Filter-Mac.app
+          chmod +x Low-Resolution-Webcam-Filter-Mac.app
+          zip -r Low-Resolution-Webcam-Filter-Mac.zip "Low-Resolution-Webcam-Filter-Mac.app"
+          
+          # Linux: フォルダの中からバイナリを取り出してリネーム
+          mv "raw_artifacts/Low-Resolution-Webcam-Filter-Linux/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
+          chmod +x Low-Resolution-Webcam-Filter-Linux
+          zip -r Low-Resolution-Webcam-Filter-Mac.zip "Low-Resolution-Webcam-Filter-Linux"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Low-Resolution-Webcam-Filter.exe
+            Low-Resolution-Webcam-Filter-Mac.zip
+            Low-Resolution-Webcam-Filter-Linux.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
