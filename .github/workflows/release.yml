@@ -17,7 +17,7 @@ jobs:
             sep: ";"
           - os: macos-latest
             artifact_name: Low-Resolution-Webcam-Filter-Mac
-            asset_name: Low-Resolution-Webcam-Filter-Mac
+            asset_name: Low-Resolution-Webcam-Filter-Mac.zip
             sep: ":"
           - os: ubuntu-latest
             artifact_name: Low-Resolution-Webcam-Filter-Linux
@@ -72,8 +72,9 @@ jobs:
             mv "raw_artifacts/Low-Resolution-Webcam-Filter-Windows/Low Resolution Webcam Filter.exe" ./Low-Resolution-Webcam-Filter.exe
             
             # Mac: フォルダの中からバイナリを取り出してリネーム
-            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Mac/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac
+            mv "raw_artifacts/Low-Resolution-Webcam-Filter-Mac/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Mac.app
             chmod +x Low-Resolution-Webcam-Filter-Mac
+            zip -r Low-Resolution-Webcam-Filter-Mac.zip "Low Resolution Webcam Filter.app"
             
             # Linux: フォルダの中からバイナリを取り出してリネーム
             mv "raw_artifacts/Low-Resolution-Webcam-Filter-Linux/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
@@ -84,7 +85,7 @@ jobs:
           with:
             files: |
               Low-Resolution-Webcam-Filter.exe
-              Low-Resolution-Webcam-Filter-Mac
+              Low-Resolution-Webcam-Filter-Mac.zip
               Low-Resolution-Webcam-Filter-Linux
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
