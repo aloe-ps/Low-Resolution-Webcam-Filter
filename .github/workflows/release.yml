@@ -79,7 +79,7 @@ jobs:
           # Linux: フォルダの中からバイナリを取り出してリネーム
           mv "raw_artifacts/Low-Resolution-Webcam-Filter-Linux/Low Resolution Webcam Filter" ./Low-Resolution-Webcam-Filter-Linux
           chmod +x Low-Resolution-Webcam-Filter-Linux
-          zip -r Low-Resolution-Webcam-Filter-Mac.zip "Low-Resolution-Webcam-Filter-Linux"
+          zip -r Low-Resolution-Webcam-Filter-Linux.zip "Low-Resolution-Webcam-Filter-Linux"
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
