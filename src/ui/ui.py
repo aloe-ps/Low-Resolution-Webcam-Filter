@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
-from content import TOOLTIPS
 from setting.preset import PRESET_DIR, list_presets, load_preset, save_preset
 from setting.stylesheet import load_stylesheet
 from ui.slider_params import PARAMS
@@ -69,7 +68,8 @@ class ControlUI(QWidget):
                     name,
                     meta["min"],
                     meta["max"],
-                    meta["float"]
+                    meta["float"],
+                    meta.get("tooltip", "")
                 )
 
             right.addWidget(box)
@@ -83,7 +83,7 @@ class ControlUI(QWidget):
         box.setLayout(layout)
         return box, layout
 
-    def add_slider(self, layout, label, attr, minv, maxv, float_mode=False):
+    def add_slider(self, layout, label, attr, minv, maxv, float_mode=False, tooltip=""):
         container = QVBoxLayout()
 
         # --- 上段（ラベル＋i）
@@ -95,8 +95,8 @@ class ControlUI(QWidget):
         info.setStyleSheet("color: #aaa; font-weight: bold;")
 
         # ツールチップ設定
-        if attr in TOOLTIPS:
-            info.setToolTip(TOOLTIPS[attr])
+        if tooltip:
+            info.setToolTip(tooltip)
 
         top.addWidget(lbl)
         top.addWidget(info)
