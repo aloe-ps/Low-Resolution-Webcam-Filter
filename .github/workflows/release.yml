@@ -14,15 +14,12 @@ jobs:
           - os: windows-latest
             artifact_name: Low-Resolution-Webcam-Filter-Windows
             asset_name: Low-Resolution-Webcam-Filter.exe
-            sep: ";"
           - os: macos-latest
             artifact_name: Low-Resolution-Webcam-Filter-Mac
             asset_name: Low-Resolution-Webcam-Filter-Mac.zip
-            sep: ":"
           - os: ubuntu-latest
             artifact_name: Low-Resolution-Webcam-Filter-Linux
             asset_name: Low-Resolution-Webcam-Filter-Linux
-            sep: ":"
 
     runs-on: ${{ matrix.os }}
 
@@ -33,21 +30,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.13"
           cache: "pip"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller
           pip install -r requirements-build.txt
 
       - name: Build with PyInstaller
-        run: >
-          pyinstaller --name "Low Resolution Webcam Filter" 
-          --noconsole --onefile 
-          --add-data "style.css${{ matrix.sep }}." 
-          src/main.py
+        run: pyinstaller --clean --noconfirm "Low Resolution Webcam Filter.spec"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
