@@ -13,7 +13,6 @@ class ControlUI(QWidget, PresetPanelMixin, SliderPanelMixin):
 
         self.setWindowTitle("Low Resolution Camera Filter")
         style_data = load_stylesheet("style.css")
-        print("Loaded stylesheet:", "style.css" if style_data else "None")
         if style_data:
             self.setStyleSheet(style_data)
         self.setMinimumSize(800, 500)
