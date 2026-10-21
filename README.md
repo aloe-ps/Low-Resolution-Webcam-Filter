@@ -28,7 +28,7 @@ The processed video can be routed through a virtual camera and recorded in OBS o
 ```
 pip install uv
 ```
-* OpenCV
+* OpenCV (headless)
 * NumPy
 * PyQt5
 * pyvirtualcam
@@ -42,22 +42,23 @@ git clone https://github.com/aloe-ps/Low-Resolution-Webcam-Filter.git
 cd Low-Resolution-Webcam-Filter
 uv run src\main.py
 ```
-## Build
-### Windows
-```
-uv add -r requirements-build.txt
-uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css;." src\main.py
-```
-### Mac / Linux
-```
-uv add -r requirements-build.txt
-uv run pyinstaller --name "Low Resolution Webcam Filter" --noconsole --onefile --add-data "style.css:." src\main.py
-```
 
 * The UI window will open.
 * The camera feed will start automatically.
 * The processed output is sent to a virtual camera.
 * Select the virtual camera in OBS or other software.
+
+## Build
+
+### Windows / Mac / Linux
+```
+uv sync
+uv pip install -r requirements-build.txt
+uv run --no-sync pyinstaller --clean --noconfirm "Low Resolution Webcam Filter.spec"
+```
+
+The spec file bundles `style.css` and trims unused Qt components. Output is written to `dist/`
+(`Low Resolution Webcam Filter.exe` on Windows, `.app` on macOS).
 
 ---
 
