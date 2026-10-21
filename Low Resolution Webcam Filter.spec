@@ -1,5 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import sys
+
+
+_IS_WINDOWS = sys.platform.startswith("win")
 
 _QT_PLUGIN_DIRS = {
     "assetimporters",
@@ -46,6 +50,9 @@ def _is_unused_qt(entry):
     if name.startswith("pyqt5/qt5/translations/"):
         return True
 
+    if not _IS_WINDOWS:
+        return False
+
     if name.startswith("pyqt5/qt5/plugins/"):
         parts = name.split("/")
         if len(parts) >= 4:
@@ -62,7 +69,7 @@ def _is_unused_qt(entry):
 
 
 a = Analysis(
-    ['src\\main.py'],
+    ['src/main.py'],
     pathex=[],
     binaries=[],
     datas=[('style.css', '.')],
@@ -119,3 +126,11 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
+
+if sys.platform == "darwin":
+    app = BUNDLE(
+        exe,
+        name='Low Resolution Webcam Filter.app',
+        icon=None,
+        bundle_identifier=None,
+    )
