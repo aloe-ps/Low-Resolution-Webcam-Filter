@@ -9,11 +9,17 @@ from ui.run import start_ui
 
 def camera_loop():
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
     width = int(cap.get(3))
     height = int(cap.get(4))
 
-    with pyvirtualcam.Camera(width=width, height=height, fps=30) as cam:
+    with pyvirtualcam.Camera(
+        width=width,
+        height=height,
+        fps=30,
+        fmt=pyvirtualcam.PixelFormat.BGR,
+    ) as cam:
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -21,7 +27,7 @@ def camera_loop():
 
             processed = apply_low_resolution(frame, config)
 
-            cam.send(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB))
+            cam.send(processed)
             cam.sleep_until_next_frame()
 
 
