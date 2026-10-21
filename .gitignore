@@ -4,7 +4,6 @@ presets
 .gitignore
 dist
 build
-**\.spec
 .venv
 BUGS.md
 OPTIMIZE.md
