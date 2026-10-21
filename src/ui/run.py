@@ -1,6 +1,6 @@
 import sys
 
-from ui.ui import ControlUI
+from ui.design.ui import ControlUI
 from PyQt5.QtWidgets import QApplication
 
 def start_ui(config):
